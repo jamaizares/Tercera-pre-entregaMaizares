@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from .forms import *
 from django.shortcuts import redirect
 from django.views.generic.list import ListView
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -78,3 +79,11 @@ def servicios_edit(request, pk):
     else:
         form = serviciosForm(instance=servicio)
     return render(request, 'blog/servicios_edit.html', {'form': form})
+
+def busqueda(request):
+    return render (request,'blog/busqueda.html')
+
+def buscar(request):
+        respuesta = f"busco el post: {request.GET['title']}" 
+
+        return HttpResponse(respuesta)
