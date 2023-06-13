@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.utils import timezone
 from .models import Post
 from django.shortcuts import render, get_object_or_404
-from .forms import PostForm
+from .forms import *
 from django.shortcuts import redirect
+from django.views.generic.list import ListView
 
 # Create your views here.
 
@@ -42,4 +43,38 @@ def post_edit(request, pk):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
-        
+
+# Servicios 
+
+
+class ServiciosListView(ListView):
+    model = servicios
+    template_name = 'blog/servicios_list.html'
+    context_object_name = 'servicio'
+
+def servicios_detail(request, pk):
+    servicio = get_object_or_404(servicios, pk=pk)
+    return render(request, 'blog/servicios_detail.html', {'servicio': servicio})
+
+def servicios_new(request):
+    if request.method == "POST":
+        form = serviciosForm(request.POST)
+        if form.is_valid():
+            servicios = form.save(commit=False)
+            servicios.save()
+            return redirect('servicios_detail', pk=servicios.pk)
+    else:
+        form = serviciosForm()
+    return render(request, 'blog/servicios_edit.html', {'form': form})
+
+def servicios_edit(request, pk):
+    servicio = get_object_or_404(servicios , pk=pk)
+    if request.method == "POST":
+        form = serviciosForm(request.POST, instance=servicio)
+        if form.is_valid():
+            servicio = form.save(commit=False)
+            servicio.save()
+            return redirect('servicios_detail', pk=servicio.pk)
+    else:
+        form = serviciosForm(instance=servicio)
+    return render(request, 'blog/servicios_edit.html', {'form': form})

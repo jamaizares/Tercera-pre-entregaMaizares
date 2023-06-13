@@ -4,6 +4,11 @@ from django.db import models
 from django.utils import timezone
 
 
+class servicios (models.Model):
+    nombre = models.CharField(max_length=50, verbose_name='Nombre de Servicio')
+    tipo = models.CharField(max_length=50, verbose_name='Tipo de Servicio')
+    precio = models.BigIntegerField()
+    
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
@@ -18,4 +23,12 @@ class Post(models.Model):
         self.save()
 
     def __str__(self):
-        return self.title
+        return self.title 
+
+
+
+
+
+
+
+
